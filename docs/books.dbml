@@ -1,0 +1,7 @@
+Table books {
+  id long [pk, increment]
+  title varchar(100) [not null]
+  category varchar(50) [not null]
+  price decimal(10, 2) [not null]
+  author varchar(100) [not null]
+}

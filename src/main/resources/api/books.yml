@@ -1,0 +1,256 @@
+openapi: "3.0.3"
+info:
+  title: Bookstore API
+  version: "1.0"
+servers:
+  - url: http://localhost:8080
+    description: Local server
+tags:
+  - name: Books
+    description: Operations about books
+paths:
+  /books:
+    get:
+      tags:
+        - Books
+      summary: List all books
+      operationId: listBooks
+      parameters:
+        - name: page
+          in: query
+          description: The page number
+          schema:
+            type: integer
+            format: int32
+            default: 0
+            example: 0
+        - name: size
+          in: query
+          description: The page size
+          schema:
+            type: integer
+            format: int32
+            default: 10
+            example: 10
+      responses:
+        "200":
+          description: A list of books
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/PaginatedBooks"
+    post:
+      tags:
+        - Books
+      summary: Create a new book
+      operationId: createBook
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateBook"
+      responses:
+        "201":
+          description: Book created
+          headers:
+            Location:
+              description: The URL of the created book
+              schema:
+                type: string
+                format: uri
+                example: /books/1
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+  /books/{id}:
+    get:
+      tags:
+        - Books
+      summary: Get a book by ID
+      operationId: getBookById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the book to retrieve
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Book found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        "400":
+          description: Bad request
+        "404":
+          description: Book not found
+    put:
+      tags:
+        - Books
+      summary: Update a book by ID
+      operationId: updateBookById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the book to update
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateBook"
+        required: true
+      responses:
+        "200":
+          description: Book created
+          headers:
+            Location:
+              description: The URL of the updated book
+              schema:
+                type: string
+                format: uri
+                example: /books/1
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+    delete:
+      tags:
+        - Books
+      summary: Delete a book by ID
+      operationId: deleteBookById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the book to delete
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "204":
+          description: Book deleted
+        "400":
+          description: Bad request
+components:
+  schemas:
+    PaginatedBooks:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/Book"
+        number:
+          type: integer
+          format: int32
+          example: 0
+        size:
+          type: integer
+          format: int32
+          example: 10
+        totalPages:
+          type: integer
+          format: int32
+          example: 1
+        totalElements:
+          type: integer
+          format: int64
+          example: 1
+        numberOfElemensts:
+          type: integer
+          format: int32
+          example: 1
+    CreateBook:
+      required:
+        - title
+        - author
+        - category
+        - price
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title of the book
+          maxLength: 100
+          example: "Java Programming"
+        author:
+          type: string
+          description: The author of the book
+          maxLength: 100
+          example: "John Doe"
+        category:
+          type: string
+          description: The category of the book
+          maxLength: 50
+          example: "Programming"
+        price:
+          type: number
+          format: double
+          description: The price of the book
+          example: 19.99
+    UpdateBook:
+      required:
+        - title
+        - author
+        - category
+        - price
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title of the book
+          maxLength: 100
+          example: "Java Programming"
+        author:
+          type: string
+          description: The author of the book
+          maxLength: 100
+          example: "John Doe"
+        category:
+          type: string
+          description: The category of the book
+          maxLength: 50
+          example: "Programming"
+        price:
+          type: number
+          format: double
+          description: The price of the book
+          example: 19.99
+    Book:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: The ID of the book
+          example: 1
+        title:
+          type: string
+          description: The title of the book
+          maxLength: 100
+          example: "Java Programming"
+        author:
+          type: string
+          description: The author of the book
+          maxLength: 100
+          example: "John Doe"
+        category:
+          type: string
+          description: The category of the book
+          maxLength: 50
+          example: "Programming"
+        price:
+          type: number
+          format: double
+          description: The price of the book
+          example: 19.99
