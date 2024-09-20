@@ -27,9 +27,13 @@ public class BookController implements BooksApi {
 
     @NonNull
     private final BookCreateUseCase bookCreateUseCase;
+    @NonNull
     private final BookDeleteUseCase bookDeleteUseCase;
+    @NonNull
     private final BookGetByIdUseCase bookGetByIdUseCase;
+    @NonNull
     private final BookListUseCase bookListUseCase;
+    @NonNull
     private final BookUpdateUseCase bookUpdateUseCase;
 
     @Override
