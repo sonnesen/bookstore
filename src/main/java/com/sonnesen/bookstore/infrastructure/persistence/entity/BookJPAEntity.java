@@ -58,7 +58,7 @@ public class BookJPAEntity {
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
-    @NotBlank(message = "Authro is required")
+    @NotBlank(message = "Author is required")
     @Size(max = 100, message = "Author must be up to 100 characters")
     @Column(nullable = false, length = 100)
     private String author;
@@ -67,12 +67,10 @@ public class BookJPAEntity {
     private Boolean active = true;
 
     @CreationTimestamp
-    @NotNull(message = "Created at is required")
     @Column(nullable = false, updatable = false)
     private Instant createdAt;
 
     @UpdateTimestamp
-    @NotNull(message = "Updated at is required")
     @Column(nullable = false)
     private Instant updatedAt;
 
